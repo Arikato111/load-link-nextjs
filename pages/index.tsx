@@ -1,12 +1,19 @@
 import { GetServerSideProps } from 'next';
+import axios from 'axios';
 import Head from 'next/head'
 import Image from 'next/image'
+import { useEffect } from 'react';
 
 type HomeProps = {
   text: string;
 }
 
 export default function Home(props: HomeProps) {
+  useEffect(()=> {
+    axios.get('/api/test').then( res => {
+      console.log(res.data)
+    })
+  }, [])
   return (
     <>
       <Head>
