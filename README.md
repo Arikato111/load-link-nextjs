@@ -26,7 +26,7 @@
 - **prisma** and **mongodb** [Database]
 
 ## TODOs
-
+- [x] create schema 
 - [ ] users
     - [ ] register
     - [ ] login
