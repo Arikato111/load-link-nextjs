@@ -1,23 +1,31 @@
-import { MongoClient } from "mongodb";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
 // get mongodb url connect from .env.local
-const mongo_connect = process.env['mongo_connect'] ?? ""; 
-// check mongo connect in .env.local
-if(mongo_connect.length === 0) throw new Error("You need to enter mongodb connect to '.env.local'")
-
-// create MongoCliant with mongo url connect
-const cliant = new MongoClient(mongo_connect)
-
 const Database = {
-    async checkConnect() {
-        // just a function to check connect on mongodb
-        // connect collection
-        const transactionCollection = cliant.db('api-learnning').collection("transaction");
-        // find data in collection
-        const fetchData = await transactionCollection.find({})
-        // convert dat to array
-        const data = fetchData.toArray()
-        return data;
-    }
-}
+  async createUser(
+    name: string,
+    email: string,
+    google_token: string,
+    photo: string
+  ) {
+    let result = await prisma.users.create({
+      data: {
+        name,
+        email,
+        google_token,
+        photo,
+      },
+    });
+    return result;
+  },
+  async getUsers_byId(id: string) {
+    let result = await prisma.users.findFirst({ where: { id: id } });
+    return result;
+  },
+  async close() {
+    await prisma.$disconnect();
+  },
+};
 
-export default Database 
+export default Database;
