@@ -14,8 +14,9 @@
 - **this project is developing now.**
 - clone this repository.
 - `npm install` or `pnpm install`
-- create `.env` like `.env.example`
-- enter **mongodb connect** in `.env`
+- create `.env.local` like `.env.example`
+- enter **mongodb connect** in `.env.local`
+- if prisma can't db push you can try to change `.env.local` to `.env`
 - `npx prisma generate` to setup prisma
 - `npm run dev` or `pnpm dev` to run server in dev mode
 
