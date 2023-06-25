@@ -6,23 +6,23 @@ import { useRouter } from "next/router";
 
 const items: MenuProps["items"] = [
   {
-    label: <Link href={"/"}>Links list</Link>,
+    label: <Link href={"/"}>รายการลิงก์</Link>,
     key: "link",
   },
   {
-    label: <Link href={"/about"}>About</Link>,
+    label: <Link href={"/about"}>เกี่ยวกับ</Link>,
     key: "about",
   },
   {
-    label: <Link href={"/member"}>member</Link>,
+    label: <Link href={"/member"}>ผู้ใช้งาน</Link>,
     key: "member",
   },
   {
-    label: <Link href={"/login"}>Login</Link>,
+    label: <Link href={"/login"}>เข้าสู่ระบบ</Link>,
     key: "login",
   },
   {
-    label: <Link href={"/register"}>Register</Link>,
+    label: <Link href={"/register"}>สมัครใช้งาน</Link>,
     key: "register",
   },
 ];
