@@ -34,6 +34,7 @@
 - Nextjs with Typescript
 - Tailwindcss [css framework]
 - **prisma** and **mongodb** [Database]
+- antd
 
 ## TODOs
 
