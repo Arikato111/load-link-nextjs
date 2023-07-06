@@ -9,6 +9,15 @@
 
 # <p align="center">load link nextjs</p>
 
+<p align="center">
+    <img alt="Github License" src="https://img.shields.io/github/license/Arikato111/load-link-nextjs" />
+    <img alt="GitHub Issues" src="https://img.shields.io/github/issues/Arikato111/load-link-nextjs" />
+    <img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/Arikato111/load-link-nextjs" />
+    <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/Arikato111/load-link-nextjs" />
+    <img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/Arikato111/load-link-nextjs" />
+    <img alt="" src="https://img.shields.io/github/repo-size/Arikato111/load-link-nextjs" />
+</p>
+
 ## Get started
 
 - **this project is developing now.**
@@ -27,14 +36,16 @@
 - **prisma** and **mongodb** [Database]
 
 ## TODOs
-- [x] create schema 
+
+- [x] create schema
 - [ ] users
-    - [ ] register
-    - [ ] login
-    - [ ] delete account
+
+  - [ ] register
+  - [ ] login
+  - [ ] delete account
 
 - [ ] links
-    - [ ] read link
-    - [ ] add link
-    - [ ] edit link info
-    - [ ] delete link
+  - [ ] read link
+  - [ ] add link
+  - [ ] edit link info
+  - [ ] delete link
