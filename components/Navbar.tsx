@@ -21,10 +21,6 @@ const items: MenuProps["items"] = [
     label: <Link href={"/login"}>เข้าสู่ระบบ</Link>,
     key: "login",
   },
-  {
-    label: <Link href={"/register"}>สมัครใช้งาน</Link>,
-    key: "register",
-  },
 ];
 
 const Navbar: React.FC = () => {

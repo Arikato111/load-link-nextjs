@@ -2,19 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import Database from "@/database/main";
 
 // Exclude keys from user
-interface UsersAll {
-  id?: string;
-  name: string;
-  email: string;
-  photo: string;
-  google_token?: string;
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const users = (await Database.users.getAllUser()) as UsersAll[];
+  // any type because I want to delete id and google token
+  const users = (await Database.users.getAllUser()) as any;
   await Database.close();
 
   // hide id and google_token

@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn-white {
+    @apply cursor-pointer bg-white  hover:outline-blue-500 shadow hover:shadow-blue-500 hover:outline-2 hover:outline   rounded border border-zinc-300 border-solid m-3 flex items-center justify-center px-3 py-2 text-xl;
+  }
+}
