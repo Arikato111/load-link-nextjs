@@ -4,6 +4,6 @@
 
 @layer components {
   .btn-white {
-    @apply cursor-pointer bg-white  hover:outline-blue-500 shadow hover:shadow-blue-500 hover:outline-2 hover:outline   rounded border border-zinc-300 border-solid m-3 flex items-center justify-center px-3 py-2 text-xl;
+    @apply cursor-pointer bg-white  hover:outline-blue-400 hover:outline-2 hover:outline duration-100 transition-all  rounded border hover:border-transparent border-zinc-300 border-solid m-3 flex items-center justify-center px-3 py-2 text-xl;
   }
 }

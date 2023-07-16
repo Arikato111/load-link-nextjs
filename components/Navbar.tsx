@@ -6,8 +6,16 @@ import { useRouter } from "next/router";
 
 const items: MenuProps["items"] = [
   {
+    type: "group",
+    label: (
+      <Link href={"/"}>
+        <span className="text-blue-500 text-2xl">LLN</span>
+      </Link>
+    ),
+  },
+  {
     label: <Link href={"/"}>รายการลิงก์</Link>,
-    key: "link",
+    key: "",
   },
   {
     label: <Link href={"/about"}>เกี่ยวกับ</Link>,

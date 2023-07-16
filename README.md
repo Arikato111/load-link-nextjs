@@ -46,6 +46,7 @@
 
   - [ ] register
   - [ ] login
+  - [ ] update profile with firebase
   - [ ] delete account
 
 - [ ] links
@@ -53,3 +54,43 @@
   - [ ] add link
   - [ ] edit link info
   - [ ] delete link
+
+---
+
+## For developers
+
+### authentication
+
+- create token with jwt
+
+  - access token '/api/auth/login'
+  - refresh token '/api/auth/refresh'
+
+- check auth on server side on `headers` with `authorization`
+- check auth on client side by wjs-cookie`
+- after login token will response to client and setCookie with `js-cookie`
+
+```js
+Cookies.set("access_token", "theToken", {
+  path: "/",
+  expires: new Date(Date.now() * hours(1)),
+});
+```
+
+- when create cookie it need to input expires with Date()
+- when want to add time use `hours(1)` or `minutes(10)` and more at `./components/lib/aboutTime.ts`
+
+### Request api
+
+- when sending api request it will check access token.
+- if access toeken has expired, client must sending api request to '/api/auth/refresh'
+- to get new access token and resend api request.
+
+### Cookies
+
+- get cookies on server side use `req.cookies`
+- get cookies on client side use 'js-cookie'
+
+### Api
+
+- api is in `backend` folder with `expressjs`

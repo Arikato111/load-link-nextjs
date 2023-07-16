@@ -4,7 +4,7 @@ import { getAuth, signInWithPopup } from "firebase/auth";
 import { googleProvider } from "../components/lib/firebase";
 import GoogleButton from "@/components/GoogleButton";
 
-export default function login() {
+export default function Login() {
   const onLoginClick = async () => {};
 
   const onRegisterClick = async () => {
@@ -18,16 +18,16 @@ export default function login() {
         <title>เข้าสู่ระบบ</title>
       </Head>
       <div>
-        <main>
-          <div className="sm:flex justify-around">
+        <main className="container mx-auto py-auto">
+          <div className="text-center">
             <span className="inline-block">
-              <GoogleButton title="เข้าสู่ระบบ Google" onClick={onLoginClick} />
+              <GoogleButton title="เข้าสู่ระบบ" onClick={onLoginClick} />
             </span>
             <span className="inline-block">
-              <GoogleButton
-                title=" สมัครสมาชิกด้วย Google"
-                onClick={onRegisterClick}
-              />
+              <span className="flex justify-center items-center">หรือ</span>
+            </span>
+            <span className="inline-block">
+              <GoogleButton title="ลงทะเบียน" onClick={onRegisterClick} />
             </span>
           </div>
         </main>

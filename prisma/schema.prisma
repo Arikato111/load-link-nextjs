@@ -11,12 +11,21 @@ datasource db {
 }
 
 model users {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   email        String
   photo        String
   google_token String
   link         link[]
+  token        token[]
+}
+
+model token {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  refresh_token String
+  date          DateTime @default(now())
+  author        users    @relation(fields: [autherId], references: [id])
+  autherId      String   @db.ObjectId
 }
 
 model link {
