@@ -94,3 +94,7 @@ Cookies.set("access_token", "theToken", {
 ### Api
 
 - api is in `backend` folder with `expressjs`
+
+### Status code
+
+- statusCode response description here

@@ -1,10 +1,12 @@
 import express from "express";
 import Database from "@/database/main";
 import UserRouter from "./userRouter";
+import AuthRouter from "./authRouter";
 
 const router = express.Router();
 
 router.use(UserRouter);
+router.use(AuthRouter);
 
 UserRouter.get("/", (req, res) => {
   res.json({
