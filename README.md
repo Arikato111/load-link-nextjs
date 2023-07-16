@@ -39,6 +39,9 @@
 ## TODOs
 
 - [x] create schema
+
+- [ ] authentication with jwt
+
 - [ ] users
 
   - [ ] register
