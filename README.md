@@ -34,7 +34,12 @@
 - Nextjs with Typescript
 - Tailwindcss [css framework]
 - **prisma** and **mongodb** [Database]
+- firebase
+- axios
 - antd
+- cookie
+- js-cookie
+- jsonwebtoken
 
 ## TODOs
 
@@ -67,7 +72,7 @@
   - refresh token '/api/auth/refresh'
 
 - check auth on server side on `headers` with `authorization`
-- check auth on client side by wjs-cookie`
+- check auth on client side by `js-cookie`
 - after login token will response to client and setCookie with `js-cookie`
 
 ```js
@@ -83,13 +88,13 @@ Cookies.set("access_token", "theToken", {
 ### Request api
 
 - when sending api request it will check access token.
-- if access toeken has expired, client must sending api request to '/api/auth/refresh'
+- if access token has expired, client must sending api request to '/api/auth/refresh'
 - to get new access token and resend api request.
 
 ### Cookies
 
-- get cookies on server side use `req.cookies`
-- get cookies on client side use 'js-cookie'
+- get cookies on server side use `req.headers.authorization`
+- get cookies on client side use `js-cookie`
 
 ### Api
 
