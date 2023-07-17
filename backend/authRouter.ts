@@ -1,5 +1,7 @@
+import { error } from "console";
 import express from "express";
 import jwt from "jsonwebtoken";
+import TokenManages from "./lib/tokenManage";
 const AuthRouter = express.Router();
 
 // for example generate token
@@ -30,16 +32,38 @@ AuthRouter.get("/auth/token-example", (req, res) => {
 
 AuthRouter.post("/auth/register", (req, res) => {
   try {
-    // const { name, email, photo, google_token } = req.body;
+    const { name, email, photo, google_token } = req.body;
+    // check input error or emty
+    if (!(name && email && photo && google_token)) throw "Error bad reqest";
+
+    let tokenOrigin = TokenManages.getAll();
+    // create accessToken for client
+    let accessToken = jwt.sign(
+      { name, email, photo },
+      tokenOrigin.accessTokenSeed,
+      {
+        expiresIn: "1d",
+      }
+    );
+    // create refreshToken for client
+    let refreshToken = jwt.sign(
+      { name, email, photo },
+      tokenOrigin.refreshTokenSeed,
+      {
+        expiresIn: "30d",
+      }
+    );
+    // response data and token to client
     res.json({
       statusCode: 201,
       data: {
-        access_token: "",
-        refresh_token: "",
+        refreshToken,
+        accessToken,
       },
       msg: "register success",
     });
   } catch (err) {
+    // when get any error
     res.status(200).json({ statusCode: 200, msg: "error bad request" });
   }
 });

@@ -106,5 +106,5 @@ Cookies.set("access_token", "theToken", {
 
 ### Problem
 
-- express can't handle data from `req.body`.
-- may I must swicth to use nextjs api.
+- [fixed] express can't handle data from `req.body`.
+- It can not use `express.json()` and app dont need to use express.json();

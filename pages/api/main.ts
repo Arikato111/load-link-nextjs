@@ -6,11 +6,7 @@ import next from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 const app = express();
-app.use(express.json());
 
-app.all("*", (req, res) => {
-  res.json({ body: req.body });
-});
-// app.use("/api/", router);
+app.use("/api/", router);
 
 export default app;
