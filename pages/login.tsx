@@ -3,6 +3,7 @@ import Head from "next/head";
 import { getAuth, signInWithPopup } from "firebase/auth";
 import { googleProvider } from "../components/lib/firebase";
 import GoogleButton from "@/components/GoogleButton";
+import axios from "axios";
 
 export default function Login() {
   const onLoginClick = async () => {};
@@ -10,7 +11,22 @@ export default function Login() {
   const onRegisterClick = async () => {
     let auth = getAuth();
     let result = await signInWithPopup(auth, googleProvider);
-    console.log(result.user.metadata);
+    const userInfo = {
+      name: result.user.displayName,
+      email: result.user.email,
+      photo: result.user.photoURL,
+      google_token: result.user.uid,
+    };
+    try {
+      let response = await axios.post(
+        "http://localhost:3000/api/auth/register",
+        userInfo
+      );
+      console.log(response.data);
+    } catch (err) {
+      console.error("Axios error");
+      console.error(err);
+    }
   };
   return (
     <>

@@ -28,6 +28,22 @@ AuthRouter.get("/auth/token-example", (req, res) => {
   }
 });
 
+AuthRouter.post("/auth/register", (req, res) => {
+  try {
+    // const { name, email, photo, google_token } = req.body;
+    res.json({
+      statusCode: 201,
+      data: {
+        access_token: "",
+        refresh_token: "",
+      },
+      msg: "register success",
+    });
+  } catch (err) {
+    res.status(200).json({ statusCode: 200, msg: "error bad request" });
+  }
+});
+
 // for login and create token
 AuthRouter.post("/auth/login", (req, res) => {
   res.json({ msg: "soon" });
