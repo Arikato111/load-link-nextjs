@@ -6,6 +6,12 @@ const users = {
     return users;
   },
 
+  async getUser_ByGoogleToken(google_token: string) {
+    let user = await prisma.users.findFirst({
+      where: { google_token: google_token },
+    });
+    return user;
+  },
   async getUser_ById(id: string) {
     if (id.length !== 24) return null;
     let usr = await prisma.users.findFirst({ where: { id: id } });

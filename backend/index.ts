@@ -1,5 +1,4 @@
 import express from "express";
-import Database from "@/database/main";
 import UserRouter from "./userRouter";
 import AuthRouter from "./authRouter";
 

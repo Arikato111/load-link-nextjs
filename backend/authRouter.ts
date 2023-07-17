@@ -1,7 +1,7 @@
-import { error } from "console";
 import express from "express";
 import jwt from "jsonwebtoken";
 import TokenManages from "./lib/tokenManage";
+import Database from "@/database/main";
 const AuthRouter = express.Router();
 
 // for example generate token
@@ -30,29 +30,38 @@ AuthRouter.get("/auth/token-example", (req, res) => {
   }
 });
 
-AuthRouter.post("/auth/register", (req, res) => {
+// register and getnerate token
+AuthRouter.post("/auth/register", async (req, res) => {
   try {
     const { name, email, photo, google_token } = req.body;
     // check input error or emty
     if (!(name && email && photo && google_token)) throw "Error bad reqest";
+    // check user already use
+    let user = await Database.users.getUser_ByGoogleToken(google_token);
+    // if found user return 'already used'
+    if (user)
+      res.json({
+        statusCode: 200,
+        msg: "this user has alredy registerd",
+      });
 
-    let tokenOrigin = TokenManages.getAll();
+    // create user
+    let user_created = await Database.users.createUser(
+      name,
+      email,
+      google_token,
+      photo
+    );
+
     // create accessToken for client
-    let accessToken = jwt.sign(
-      { name, email, photo },
-      tokenOrigin.accessTokenSeed,
-      {
-        expiresIn: "1d",
-      }
-    );
+    let accessToken = jwt.sign(user_created, TokenManages.getAccessToken(), {
+      expiresIn: "15m",
+    });
     // create refreshToken for client
-    let refreshToken = jwt.sign(
-      { name, email, photo },
-      tokenOrigin.refreshTokenSeed,
-      {
-        expiresIn: "30d",
-      }
-    );
+    let refreshToken = jwt.sign(user_created, TokenManages.getRefreshToken(), {
+      expiresIn: "30d",
+    });
+    await Database.token.createToken(refreshToken, user_created.id);
     // response data and token to client
     res.json({
       statusCode: 201,
