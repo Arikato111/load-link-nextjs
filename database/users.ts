@@ -1,23 +1,23 @@
 import prisma from "./prismaClient";
 
 const users = {
-  async getAllUser() {
+  async getAll() {
     let users = await prisma.users.findMany();
     return users;
   },
 
-  async getUser_ByGoogleToken(google_token: string) {
+  async get_ByGoogleToken(google_token: string) {
     let user = await prisma.users.findFirst({
       where: { google_token: google_token },
     });
     return user;
   },
-  async getUser_ById(id: string) {
+  async get_ById(id: string) {
     if (id.length !== 24) return null;
     let usr = await prisma.users.findFirst({ where: { id: id } });
     return usr;
   },
-  async getUser_ByName(uname: string, config?: { isStartWith?: boolean }) {
+  async get_ByName(uname: string, config?: { isStartWith?: boolean }) {
     let usr;
     if (config?.isStartWith ?? true) {
       usr = await prisma.users.findFirst({
@@ -31,12 +31,7 @@ const users = {
     return usr;
   },
 
-  async createUser(
-    name: string,
-    email: string,
-    google_token: string,
-    photo: string
-  ) {
+  async add(name: string, email: string, google_token: string, photo: string) {
     let result = await prisma.users.create({
       data: {
         name,

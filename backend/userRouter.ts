@@ -6,7 +6,7 @@ const UserRouter = express.Router();
 // for return users info
 UserRouter.get("/users", async (req, res) => {
   // get users from database
-  const users = (await Database.users.getAllUser()) as any;
+  const users = (await Database.users.getAll()) as any;
   await Database.close();
   // loop to hide sensitive data
   for (let i = 0; i < users.length; i++) {

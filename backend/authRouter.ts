@@ -37,7 +37,7 @@ AuthRouter.post("/auth/register", async (req, res) => {
     // check input error or emty
     if (!(name && email && photo && google_token)) throw "Error bad reqest";
     // check user already use
-    let user = await Database.users.getUser_ByGoogleToken(google_token);
+    let user = await Database.users.get_ByGoogleToken(google_token);
     // if found user return 'already used'
     if (user)
       res.json({
@@ -46,7 +46,7 @@ AuthRouter.post("/auth/register", async (req, res) => {
       });
 
     // create user
-    let user_created = await Database.users.createUser(
+    let user_created = await Database.users.add(
       name,
       email,
       google_token,
