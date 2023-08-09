@@ -40,8 +40,8 @@ AuthRouter.post("/auth/register", async (req, res) => {
     let user = await Database.users.get_ByGoogleToken(google_token);
     // if found user return 'already used'
     if (user)
-      res.json({
-        statusCode: 200,
+      return res.json({
+        statusCode: 202,
         msg: "this user has alredy registerd",
       });
 

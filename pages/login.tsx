@@ -34,7 +34,7 @@ function NotLogin() {
           response.data.data.refreshToken,
           response.data.data.refreshToken
         );
-      } else if (response.data.statusCode === 200) {
+      } else if (response.data.statusCode === 202) {
         setErrorReport("บัญนีนี้ได้ทำการลงทะเบียนแล้ว กรุณาเข้าสู่ระบบ");
       }
     } catch (err) {
