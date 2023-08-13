@@ -2,6 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import TokenManages from "./lib/tokenManage";
 import Database from "@/database/main";
+import ValidateEmail from "./lib/ValidateEmail";
 const AuthRouter = express.Router();
 
 // for example generate token
@@ -37,6 +38,9 @@ AuthRouter.post("/auth/register", async (req, res) => {
     // check input error or emty
     if (!(name && email && photo && google_token)) throw "Error bad reqest";
     // check user already use
+    if (!ValidateEmail(email)) {
+      throw "Error email format";
+    }
     let user = await Database.users.get_ByGoogleToken(google_token);
     // if found user return 'already used'
     if (user)
@@ -45,9 +49,12 @@ AuthRouter.post("/auth/register", async (req, res) => {
         msg: "this user has alredy registerd",
       });
 
+    let username = email as string;
+    username = username.split("@")[0];
     // create user
     let user_created = await Database.users.add(
       name,
+      username,
       email,
       google_token,
       photo
@@ -73,7 +80,7 @@ AuthRouter.post("/auth/register", async (req, res) => {
     });
   } catch (err) {
     // when get any error
-    res.status(200).json({ statusCode: 200, msg: "error bad request" });
+    res.status(200).json({ statusCode: 200, msg: err });
   }
 });
 

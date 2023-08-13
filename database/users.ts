@@ -31,10 +31,17 @@ const users = {
     return usr;
   },
 
-  async add(name: string, email: string, google_token: string, photo: string) {
+  async add(
+    name: string,
+    username: string,
+    email: string,
+    google_token: string,
+    photo: string
+  ) {
     let result = await prisma.users.create({
       data: {
         name,
+        username,
         email,
         google_token,
         photo,

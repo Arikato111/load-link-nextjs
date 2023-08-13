@@ -13,7 +13,8 @@ datasource db {
 model users {
   id           String  @id @default(auto()) @map("_id") @db.ObjectId
   name         String
-  email        String
+  username     String  @unique
+  email        String  @unique
   photo        String
   google_token String
   link         link[]
