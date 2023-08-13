@@ -7,7 +7,10 @@ import { Alert } from "antd";
 import axios from "axios";
 import userToken from "@/components/lib/userToken";
 
-function NotLogin() {
+type NotLoginProps = {
+  setIsLogin: Function;
+};
+function NotLogin({ setIsLogin }: NotLoginProps) {
   const [errorReport, setErrorReport] = useState("");
   useEffect(() => {
     setTimeout(() => {
@@ -28,12 +31,14 @@ function NotLogin() {
     };
     try {
       let response = await axios.post("/api/auth/register", userInfo);
+      console.log(response.data);
       if (response.data.statusCode === 201) {
         console.log(response.data);
         userToken.saveToken(
           response.data.data.refreshToken,
           response.data.data.refreshToken
         );
+        setIsLogin(true);
       } else if (response.data.statusCode === 202) {
         setErrorReport("บัญนีนี้ได้ทำการลงทะเบียนแล้ว กรุณาเข้าสู่ระบบ");
       }
@@ -64,6 +69,9 @@ function NotLogin() {
 }
 
 function Logined() {
+  useEffect(() => {
+    location.href = "/";
+  }, []);
   return (
     <div>
       <div className="max-w-md mx-auto my-3">
@@ -89,7 +97,7 @@ export default function Login() {
       </Head>
       <div>
         <main className="container mx-auto py-auto">
-          {isLogin ? <Logined /> : <NotLogin />}
+          {isLogin ? <Logined /> : <NotLogin setIsLogin={setIsLogin} />}
         </main>
       </div>
     </>

@@ -80,6 +80,7 @@ AuthRouter.post("/auth/register", async (req, res) => {
     });
   } catch (err) {
     // when get any error
+    console.log(err);
     res.status(200).json({ statusCode: 200, msg: err });
   }
 });

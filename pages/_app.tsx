@@ -2,8 +2,18 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import Navbar from "@/components/Navbar";
+import { useEffect, useState } from "react";
+import userToken from "@/components/lib/userToken";
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    let user = userToken.isLogined();
+    console.log("check login on app", user);
+    if (user) {
+      setIsLogin(true);
+    }
+  }, []);
   return (
     <>
       <Head>
@@ -13,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <Navbar />
+        <Navbar isLogin={isLogin} />
         <Component {...pageProps} />
       </div>
     </>

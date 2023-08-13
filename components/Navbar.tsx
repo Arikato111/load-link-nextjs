@@ -31,13 +31,27 @@ const items: MenuProps["items"] = [
   },
 ];
 
-const Navbar: React.FC = () => {
+type NavbarProps = {
+  isLogin: boolean;
+};
+
+const Navbar: React.FC<NavbarProps> = ({ isLogin }) => {
   const [current, setCurrent] = useState("about");
+  const [navItem, setNavItem] = useState(items);
   const router = useRouter();
+
   useEffect(() => {
+    if (isLogin) {
+      let newNav = navItem.filter((v) => v?.key !== "login");
+      newNav.push({
+        key: "profile",
+        label: <Link href={"/profile"}>โปรไฟล์</Link>,
+      });
+      setNavItem(newNav);
+    }
     const route = router.pathname.split("/")[1];
     setCurrent(route ?? "link");
-  }, []);
+  }, [isLogin]);
 
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
@@ -49,7 +63,7 @@ const Navbar: React.FC = () => {
       onClick={onClick}
       selectedKeys={[current]}
       mode="horizontal"
-      items={items}
+      items={navItem}
     />
   );
 };
