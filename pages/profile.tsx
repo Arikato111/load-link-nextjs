@@ -1,7 +1,6 @@
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import userToken, { UserInterface } from "@/components/lib/userToken";
-import { useRouter } from "next/router";
 
 function Profile() {
   const [user, setUser] = useState<UserInterface>();
@@ -35,9 +34,14 @@ function Profile() {
 export default Profile;
 
 function IfNotLogin() {
-  const { push } = useRouter();
-  useEffect(() => {
-    push("/login");
-  }, []);
-  return <></>;
+  return (
+    <>
+      <Head>
+        <title>profile</title>
+      </Head>
+      <main>
+        <h3 className="text-center">คุณยังไม่ได้เข้าสู่ระบบ</h3>
+      </main>
+    </>
+  );
 }
