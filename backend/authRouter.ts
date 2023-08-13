@@ -41,16 +41,16 @@ AuthRouter.post("/auth/register", async (req, res) => {
     if (!ValidateEmail(email)) {
       throw "Error email format";
     }
-    let user = await Database.users.get_ByGoogleToken(google_token);
+    let username = email as string;
+    username = username.split("@")[0];
+
     // if found user return 'already used'
-    if (user)
+    if (await Database.users.validateBeforeAdd(email, username, google_token))
       return res.json({
         statusCode: 202,
         msg: "this user has alredy registerd",
       });
 
-    let username = email as string;
-    username = username.split("@")[0];
     // create user
     let user_created = await Database.users.add(
       name,
@@ -69,6 +69,7 @@ AuthRouter.post("/auth/register", async (req, res) => {
       expiresIn: "30d",
     });
     await Database.token.createToken(refreshToken, user_created.id);
+    await Database.close();
     // response data and token to client
     res.json({
       statusCode: 201,

@@ -17,6 +17,16 @@ const users = {
     let usr = await prisma.users.findFirst({ where: { id: id } });
     return usr;
   },
+  async get_ByUsername(username: string) {
+    let user = await prisma.users.findFirst({ where: { username: username } });
+    if (user) return user;
+    return false;
+  },
+  async get_ByEmail(email: string) {
+    let user = await prisma.users.findFirst({ where: { email: email } });
+    if (user) return user;
+    return false;
+  },
   async get_ByName(uname: string, config?: { isStartWith?: boolean }) {
     let usr;
     if (config?.isStartWith ?? true) {
@@ -30,7 +40,23 @@ const users = {
     }
     return usr;
   },
-
+  async validateBeforeAdd(
+    email: string,
+    username: string,
+    google_token: string
+  ) {
+    let user = await prisma.users.findFirst({
+      where: {
+        OR: [
+          { email: email },
+          { username: username },
+          { google_token: google_token },
+        ],
+      },
+    });
+    if (user) return user;
+    return false;
+  },
   async add(
     name: string,
     username: string,
