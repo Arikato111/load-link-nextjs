@@ -11,7 +11,7 @@ export interface UserPublic {
 
 const UserProfileCard = ({ user }: { user: UserPublic }) => {
   return (
-    <div className="flex">
+    <div className="flex shadow my-3 p-3 rounded border border-solid border-gray-300">
       <img src={user.photo} alt="profile image" />
       <div className="p-3">
         <div>@{user.username}</div>
