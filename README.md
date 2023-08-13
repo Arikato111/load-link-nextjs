@@ -49,7 +49,7 @@
 
 - [ ] users
 
-  - [ ] register
+  - [x] register
   - [ ] login
   - [ ] update profile with firebase
   - [ ] delete account
