@@ -9,7 +9,6 @@ export default function App({ Component, pageProps }: AppProps) {
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     let user = userToken.isLogined();
-    console.log("check login on app", user);
     if (user) {
       setIsLogin(true);
     }
