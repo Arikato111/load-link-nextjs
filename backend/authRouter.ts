@@ -87,8 +87,34 @@ AuthRouter.post("/auth/register", async (req, res) => {
 });
 
 // for login and create token
-AuthRouter.post("/auth/login", (req, res) => {
-  res.json({ msg: "soon" });
+AuthRouter.post("/auth/login", async (req, res) => {
+  try {
+    const { google_token } = req.body;
+    if (!google_token) throw "error google token";
+    let user = await Database.users.get_ByGoogleToken(google_token);
+    if (user) {
+      let accessToken = jwt.sign(user, TokenManages.getAccessToken(), {
+        expiresIn: "15m",
+      });
+      let refreshToken = jwt.sign(user, TokenManages.getRefreshToken(), {
+        expiresIn: "30d",
+      });
+      return res.json({
+        statusCode: 201,
+        data: {
+          refreshToken,
+          accessToken,
+        },
+      });
+    }
+    // not found user
+    return res.json({
+      stausCode: 202,
+      msg: "you are not login",
+    });
+  } catch (err) {
+    res.status(200).json({ statusCode: 200, msg: "something error on server" });
+  }
 });
 
 // for generate access token with refresh token
