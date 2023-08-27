@@ -50,7 +50,7 @@
 - [ ] users
 
   - [x] register
-  - [ ] login
+  - [x] login
   - [ ] update profile with firebase
   - [ ] delete account
 

@@ -18,7 +18,34 @@ function NotLogin({ setIsLogin }: NotLoginProps) {
     }, 3000);
   }, [errorReport]);
 
-  const onLoginClick = async () => {};
+  const onLoginClick = async () => {
+    try {
+      let auth = getAuth();
+      let result = await signInWithPopup(auth, googleProvider);
+      let response = await axios.post("/api/auth/login", {
+        googleToken: result.user.uid,
+      });
+      console.log(response.data);
+      if (
+        response.data.statusCode === 201 &&
+        response.data?.data?.refreshToken &&
+        response.data?.data?.accessToken
+      ) {
+        userToken.saveToken(
+          response.data.data.refreshToken,
+          response.data.data.accessToken
+        );
+        setIsLogin(true);
+      } else if (response.data.statusCode === 202) {
+        setErrorReport("คุณยังไม่ได้ลงทะเบียน กรุณาลงทะเบียนเพื่อใช้งาน");
+      } else {
+        throw "something error";
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorReport("มีบางอย่างผิดผลาด กรุณาลองใหม่อีกครั้ง");
+    }
+  };
 
   const onRegisterClick = async () => {
     let auth = getAuth();
