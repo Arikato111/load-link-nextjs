@@ -56,6 +56,7 @@
 
 - [ ] links
   - [ ] read link
+    - [ ] metatage og seo
   - [ ] add link
   - [ ] edit link info
   - [ ] delete link
@@ -63,6 +64,12 @@
 ---
 
 ## For developers
+
+### Plan
+
+- rewrite authentication algorithm
+  - client send request to api with only access token.
+  - check access token when first load website.
 
 ### authentication
 
