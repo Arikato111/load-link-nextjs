@@ -11,33 +11,44 @@ datasource db {
 }
 
 model users {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  username     String  @unique
-  email        String  @unique
-  photo        String
-  google_token String
-  link         link[]
-  token        token[]
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  username  String    @unique
+  password  String
+  name      String
+  photo     String
+  link      link[]
+  token     token[]
+  createAt  DateTime  @default(now())
+  deletedAt DateTime?
+
+  userAgent String
+  ip        String
 }
 
 model token {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  refresh_token String
-  date          DateTime @default(now())
-  author        users    @relation(fields: [autherId], references: [id])
-  autherId      String   @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  token     String   @unique
+  date      DateTime @default(now())
+  // **** 
+  userAgent String
+  ip        String
+  // ****
+  author    users    @relation(fields: [autherId], references: [id])
+  autherId  String   @db.ObjectId
 }
 
 model link {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  descript String
-  img_url  String
-  url      String
-  auto     Boolean
-  password String
-  view     Int
-  author   users   @relation(fields: [authorId], references: [id])
-  authorId String  @db.ObjectId
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  name         String    @unique
+  descript     String
+  imgUrl       String
+  url          String
+  autoRedirect Boolean
+  cooldown     Int       @default(0)
+  password     String?
+  view         Int       @default(0)
+  author       users     @relation(fields: [authorId], references: [id])
+  authorId     String    @db.ObjectId
+  createdAt    DateTime  @default(now())
+  deletedAt    DateTime?
 }

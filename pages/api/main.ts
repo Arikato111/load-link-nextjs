@@ -1,6 +1,6 @@
 // api code is move to @/api
 import express from "express";
-import router from "@/backend/index";
+import router from "@/backend/routes/web";
 
 const app = express();
 

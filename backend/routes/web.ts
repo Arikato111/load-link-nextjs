@@ -1,10 +1,14 @@
 import express from "express";
-import UserRouter from "./routes/user";
-import AuthRouter from "./routes/authen";
+import UserRouter from "./user";
+import AuthRouter from "./authen";
+import testRouter from "./test";
 
 const router = express.Router();
 
-router.use(UserRouter);
+router.use("/test", testRouter);
+// user
+router.use("/user", UserRouter);
+// authen
 router.use(AuthRouter);
 
 UserRouter.get("/", (req, res) => {

@@ -1,10 +1,10 @@
-import users from "./users";
-import token from "./token";
+import User from "./users";
+import Token from "./token";
 import prisma from "./prismaClient";
 
 const Database = {
-  token,
-  users,
+  Token,
+  User,
   async close() {
     await prisma.$disconnect();
   },

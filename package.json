@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "d": "next dev",
-    "build": "prisma generate && next build",
-    "b": "prisma generate && next build",
+    "build": "next build",
+    "b": "next build",
     "gen": "prisma generate",
     "start": "next start",
     "lint": "next lint"
@@ -24,6 +24,7 @@
     "eslint-config-next": "15.1.4",
     "express": "^4.21.2",
     "firebase": "^11.2.0",
+    "http-status-codes": "^2.3.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "next": "15.1.4",

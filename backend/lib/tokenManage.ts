@@ -1,18 +1,16 @@
-const TokenManages = {
-  getAccessToken() {
-    return process.env["ACCESS_TOKEN"] ?? "";
-  },
-  getRefreshToken() {
-    return process.env["REFRESH_TOKEN"] ?? "";
-  },
-  getAll() {
-    let accessTokenSeed = this.getAccessToken();
-    let refreshTokenSeed = this.getRefreshToken();
-    return {
-      accessTokenSeed,
-      refreshTokenSeed,
-    };
-  },
-};
+import jwt from "jsonwebtoken";
 
-export default TokenManages;
+class TokenManager {
+  private static getJwtToken(): string {
+    return process.env["JWT_TOKEN"] ?? "";
+  }
+  public static sign(payload: string | object) {
+    const signedResult = jwt.sign(payload, this.getJwtToken(), {
+      algorithm: "HS256",
+      expiresIn: "30d",
+    });
+    return signedResult;
+  }
+}
+
+export default TokenManager;
