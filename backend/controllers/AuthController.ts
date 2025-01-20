@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import TokenManager from "../lib/tokenManage";
 import Database from "@/backend/database/main";
-import { StatusCodes } from "http-status-codes";
 import { HttpStatusCode } from "axios";
 import Hasher from "../lib/hasher";
 
@@ -36,7 +35,7 @@ class AuthController {
       const ip = req.ip;
       const userAgent = req.headers["user-agent"];
       if (!userAgent || !ip) {
-        res.status(StatusCodes.BAD_REQUEST);
+        res.status(HttpStatusCode.BadRequest);
         return;
       }
 
@@ -79,7 +78,7 @@ class AuthController {
       const ip = req.ip;
       const userAgent = req.headers["user-agent"];
       if (!userAgent || !ip) {
-        res.status(StatusCodes.BAD_REQUEST);
+        res.status(HttpStatusCode.BadRequest);
         return;
       }
 
