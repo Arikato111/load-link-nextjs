@@ -33,7 +33,7 @@ class AuthController {
         Hasher.sha256sum(password)
       );
       if (!user) {
-        res.status(HttpStatusCode.Unauthorized);
+        res.sendStatus(HttpStatusCode.Unauthorized);
         return;
       }
 
@@ -51,7 +51,17 @@ class AuthController {
       });
       return;
     } catch (err) {
-      res.status(HttpStatusCode.InternalServerError);
+      res.sendStatus(HttpStatusCode.InternalServerError);
+    }
+  }
+
+  public static async logout(req: Request, res: Response) {
+    try {
+      const user = req.user;
+      await Database.Token.denyToken(user?.token ?? "");
+      res.sendStatus(HttpStatusCode.Ok);
+    } catch (err) {
+      res.sendStatus(HttpStatusCode.InternalServerError);
     }
   }
 }

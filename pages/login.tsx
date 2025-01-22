@@ -1,132 +1,83 @@
-import React, { useEffect, useState } from "react";
-import Head from "next/head";
-import { getAuth, signInWithPopup } from "firebase/auth";
-import { googleProvider } from "../components/lib/firebase";
-import GoogleButton from "@/components/GoogleButton";
-import { Alert } from "antd";
-import axios from "axios";
-import userToken from "@/components/lib/userToken";
+import React from 'react';
+import type { FormProps } from 'antd';
+import { Button, Checkbox, Flex, Form, Grid, Input, message, Row } from 'antd';
+import axios from 'axios';
+import { Content } from 'antd/es/layout/layout';
+import userToken from '@/components/lib/userToken';
+import { redirect } from 'next/navigation';
+import { useRouter } from 'next/router';
 
-type NotLoginProps = {
-  setIsLogin: Function;
+type FieldType = {
+  username?: string;
+  password?: string;
 };
-function NotLogin({ setIsLogin }: NotLoginProps) {
-  const [errorReport, setErrorReport] = useState("");
-  useEffect(() => {
-    setTimeout(() => {
-      setErrorReport("");
-    }, 3000);
-  }, [errorReport]);
 
-  const onLoginClick = async () => {
+
+const Login: React.FC = () => {
+  const [messageApi, contextHolder] = message.useMessage();
+  const router = useRouter();
+
+  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     try {
-      let auth = getAuth();
-      let result = await signInWithPopup(auth, googleProvider);
-      let response = await axios.post("/api/auth/login", {
-        googleToken: result.user.uid,
+      console.log(values);
+      const res = await axios.post("/api/auth/login", {
+        username: values.username,
+        password: values.password
       });
-      console.log(response.data);
-      if (
-        response.data.statusCode === 201 &&
-        response.data?.data?.refreshToken &&
-        response.data?.data?.accessToken
-      ) {
-        userToken.saveToken(
-          response.data.data.refreshToken,
-          response.data.data.accessToken
-        );
-        setIsLogin(true);
-      } else if (response.data.statusCode === 202) {
-        setErrorReport("คุณยังไม่ได้ลงทะเบียน กรุณาลงทะเบียนเพื่อใช้งาน");
-      } else {
-        throw "something error";
-      }
+      console.log(res.data.token)
+      const token = res.data.token
+      if (!token) throw new Error();
+      userToken.saveToken(token)
+      messageApi.open({
+        type: "success",
+        content: "Login success"
+      });
+      router.push("/")
     } catch (err) {
-      console.error(err);
-      setErrorReport("มีบางอย่างผิดผลาด กรุณาลองใหม่อีกครั้ง");
+      messageApi.open({
+        type: "error", content: "login failed, username or password invalid"
+      })
     }
   };
 
-  const onRegisterClick = async () => {
-    let auth = getAuth();
-    let result = await signInWithPopup(auth, googleProvider);
-    const userInfo = {
-      name: result.user.displayName,
-      email: result.user.email,
-      photo: result.user.photoURL,
-      google_token: result.user.uid,
-    };
-    try {
-      let response = await axios.post("/api/auth/register", userInfo);
-      console.log(response.data);
-      if (response.data.statusCode === 201) {
-        console.log(response.data);
-        userToken.saveToken(
-          response.data.data.refreshToken,
-          response.data.data.refreshToken
-        );
-        setIsLogin(true);
-      } else if (response.data.statusCode === 202) {
-        setErrorReport("บัญนีนี้ได้ทำการลงทะเบียนแล้ว กรุณาเข้าสู่ระบบ");
-      }
-    } catch (err) {
-      console.error("Axios error");
-      console.error(err);
-    }
+  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
+    console.log('Failed:', errorInfo);
   };
 
-  return (
-    <div className="text-center">
-      <span className="inline-block">
-        <GoogleButton title="เข้าสู่ระบบ" onClick={onLoginClick} />
-      </span>
-      <span className="inline-block">
-        <span className="flex justify-center items-center">หรือ</span>
-      </span>
-      <span className="inline-block">
-        <GoogleButton title="ลงทะเบียน" onClick={onRegisterClick} />
-      </span>
-      {!!errorReport && (
-        <div className="max-w-md mx-auto my-3">
-          <Alert type="error" message={errorReport} />
-        </div>
-      )}
-    </div>
-  );
-}
+  return <div className='p-10'>
+    <Form
+      name="basic"
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 16 }}
+      style={{ maxWidth: 800 }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      {contextHolder}
+      <Form.Item<FieldType>
+        label="Username"
+        name="username"
+        rules={[{ required: true, message: 'Please input your username!' }]}
+      >
+        <Input />
+      </Form.Item>
 
-function Logined() {
-  useEffect(() => {
-    location.href = "/";
-  }, []);
-  return (
-    <div>
-      <div className="max-w-md mx-auto my-3">
-        <Alert
-          className="text-center text-slate-800"
-          message={"คุณเข้าสู่ระบบแล้ว"}
-        />
-      </div>
-    </div>
-  );
-}
+      <Form.Item<FieldType>
+        label="Password"
+        name="password"
+        rules={[{ required: true, message: 'Please input your password!' }]}
+      >
+        <Input.Password />
+      </Form.Item>
 
-export default function Login() {
-  const [isLogin, setIsLogin] = useState(false);
-  useEffect(() => {
-    let loginState = userToken.isLogined();
-    setIsLogin(!!loginState);
-  }, []);
-  return (
-    <>
-      <Head>
-        <title>เข้าสู่ระบบ</title>
-      </Head>
-      <div>
-        <main className="container mx-auto py-auto">
-          {isLogin ? <Logined /> : <NotLogin setIsLogin={setIsLogin} />}
-        </main>
-      </div>
-    </>
-  );
-}
+      <Form.Item label={null}>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
+  </div>
+};
+
+export default Login;

@@ -8,30 +8,31 @@ export interface UserInterface {
   id: string;
   name: string;
   username: string;
-  email: string;
   photo: string;
-  google_token: string;
-  iat: number;
-  exp: number;
 }
 
 const userToken = {
+  getToken() {
+    let cookiesStore = Cookies.get();
+    if (!cookiesStore?.token) return false;
+    return cookiesStore.token;
+  },
   isLogined(): boolean | UserInterface {
     let cookiesStore = Cookies.get();
-    if (!cookiesStore?.refreshToken) return false;
+    if (!cookiesStore?.token) return false;
 
-    let user_decoded = Jwt.decode(cookiesStore.refreshToken);
+    let user_decoded = Jwt.decode(cookiesStore.token);
     return user_decoded as UserInterface;
   },
-  saveToken(refresh_token: string, access_token: string) {
-    Cookies.set("refreshToken", refresh_token, {
+  saveToken(token: string) {
+    Cookies.set("token", token, {
       path: "/",
       expires: new Date(Date.now() + days(30)),
+      sameSite: "strict",
     });
-    Cookies.set("accessToken", access_token, {
-      path: "/",
-      expires: new Date(Date.now() + minutes(10)),
-    });
+  },
+  deleteToken() {
+    Cookies.remove("token");
   },
 };
 

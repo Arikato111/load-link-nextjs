@@ -1,5 +1,7 @@
 import prisma from "./prismaClient";
 
+const denyFilter = { deny: false };
+
 class Token {
   public static async createToken(
     token: string,
@@ -16,6 +18,23 @@ class Token {
       },
     });
     return result;
+  }
+
+  public static async check(token: string) {
+    const tokenResult = await prisma.token.findFirst({
+      where: { AND: { token, ...denyFilter } },
+    });
+    return tokenResult;
+  }
+
+  public static async denyToken(token: string) {
+    const tokenResult = await prisma.token.update({
+      data: {
+        deny: true,
+      },
+      where: { token },
+    });
+    return tokenResult;
   }
 }
 
