@@ -18,7 +18,7 @@ model users {
   photo     String
   link      link[]
   token     token[]
-  createAt  DateTime  @default(now())
+  createdAt DateTime  @default(now())
   deletedAt DateTime?
 
   userAgent String

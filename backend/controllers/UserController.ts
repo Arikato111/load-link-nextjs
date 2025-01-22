@@ -5,15 +5,24 @@ import Hasher from "../lib/hasher";
 
 class UserController {
   public static async index(req: Request, res: Response) {
-    // get users from database
-    const users = (await Database.User.getAll()) as any;
-    await Database.close();
-    // loop to hide sensitive data
-    for (let i = 0; i < users.length; i++) {
-      delete users[i].id;
-      delete users[i].google_token;
+    try {
+      // get users from database
+      const users = (await Database.User.getAll()) as any;
+      await Database.close();
+      // loop to hide sensitive data
+      for (let i = 0; i < users.length; i++) {
+        delete users[i].id;
+        delete users[i].password;
+        delete users[i].createdAt;
+        delete users[i].deletedAt;
+        delete users[i].userAgent;
+        delete users[i].ip;
+      }
+      res.json(users);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(HttpStatusCode.InternalServerError);
     }
-    res.json(users);
   }
 
   public static async register(req: Request, res: Response): Promise<void> {

@@ -1,10 +1,8 @@
 import React from 'react';
 import type { FormProps } from 'antd';
-import { Button, Checkbox, Flex, Form, Grid, Input, message, Row } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import axios from 'axios';
-import { Content } from 'antd/es/layout/layout';
 import userToken from '@/components/lib/userToken';
-import { redirect } from 'next/navigation';
 import { useRouter } from 'next/router';
 
 type FieldType = {
