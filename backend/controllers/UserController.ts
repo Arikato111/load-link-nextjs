@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import Database from "@/backend/database/main";
 import { HttpStatusCode } from "axios";
 import Hasher from "../lib/hasher";
-import TokenManager from "../lib/tokenManage";
 
 class UserController {
   public static async index(req: Request, res: Response) {
