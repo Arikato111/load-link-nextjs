@@ -11,6 +11,14 @@ class TokenManager {
     });
     return signedResult;
   }
+  public static forLogin(params: {
+    id: string;
+    username: string;
+    name: string;
+    photo: string;
+  }) {
+    return this.sign(params);
+  }
 }
 
 export default TokenManager;

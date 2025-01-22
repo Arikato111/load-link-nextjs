@@ -1,29 +1,42 @@
 import prisma from "./prismaClient";
 
+const deleted = {
+  OR: [{ deletedAt: null }, { deletedAt: { isSet: false } }],
+};
+
 class User {
   public static async getAll() {
-    let users = await prisma.users.findMany();
+    let users = await prisma.users.findMany({
+      where: { ...deleted },
+    });
     return users;
   }
 
   public static async get_ById(id: string) {
     if (id.length !== 24) return null;
-    let usr = await prisma.users.findFirst({ where: { id: id } });
+    let usr = await prisma.users.findFirst({
+      where: { AND: { id: id, ...deleted } },
+    });
     return usr;
   }
 
   public static async getByLogin(username: string, password: string) {
     const user = await prisma.users.findFirst({
       where: {
-        username,
-        password,
+        AND: {
+          username,
+          password,
+          ...deleted,
+        },
       },
     });
     return user;
   }
 
   public static async getByUsername(username: string) {
-    let user = await prisma.users.findFirst({ where: { username: username } });
+    let user = await prisma.users.findFirst({
+      where: { AND: { username: username, ...deleted } },
+    });
     if (user) return user;
     return false;
   }
@@ -35,11 +48,11 @@ class User {
     let usr;
     if (config?.isStartWith ?? true) {
       usr = await prisma.users.findFirst({
-        where: { name: { startsWith: uname } },
+        where: { AND: { name: { startsWith: uname }, ...deleted } },
       });
     } else {
       usr = await prisma.users.findFirst({
-        where: { name: uname },
+        where: { AND: { name: uname, ...deleted } },
       });
     }
     return usr;
@@ -47,9 +60,7 @@ class User {
 
   public static async validateBeforeAdd(username: string) {
     let user = await prisma.users.findFirst({
-      where: {
-        OR: [{ username: username }],
-      },
+      where: { username: username },
     });
     if (user) return user;
     return false;
@@ -74,6 +85,19 @@ class User {
       },
     });
     return result;
+  }
+
+  public static async softDelete(id: string) {
+    const user = await prisma.users.update({
+      data: { deletedAt: new Date() },
+      where: { id },
+    });
+    return user;
+  }
+
+  public static async hardDelete(id: string) {
+    await prisma.users.delete({ where: { id } });
+    return 0;
   }
 }
 

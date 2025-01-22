@@ -3,7 +3,7 @@ import prisma from "./prismaClient";
 class Token {
   public static async createToken(
     token: string,
-    autherId: string,
+    userId: string,
     ip: string,
     userAgent: string
   ) {
@@ -12,7 +12,7 @@ class Token {
         ip,
         userAgent,
         token,
-        autherId,
+        userId,
       },
     });
     return result;
