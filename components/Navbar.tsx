@@ -29,6 +29,10 @@ const items: MenuProps["items"] = [
     label: <Link href={"/login"}>เข้าสู่ระบบ</Link>,
     key: "login",
   },
+  {
+    label: <Link href={"/register"}>สร้างบัญชี</Link>,
+    key: "register",
+  },
 ];
 
 type NavbarProps = {
@@ -42,7 +46,7 @@ const Navbar: React.FC<NavbarProps> = ({ isLogin }) => {
 
   useEffect(() => {
     if (isLogin) {
-      let newNav = navItem.filter((v) => v?.key !== "login");
+      let newNav = navItem.filter((v) => v?.key !== "login" && v?.key !== "register");
       newNav.push({
         key: "profile",
         label: <Link href={"/profile"}>โปรไฟล์</Link>,

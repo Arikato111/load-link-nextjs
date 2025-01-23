@@ -47,9 +47,9 @@ function Profile() {
       <Head>
         <title>profile</title>
       </Head>
-      <main>
+      <main className="text-center">
         {contextHolder}
-        <Image src={user.photo} alt="profile image" />
+        <Image width={200} height={200} src={user.photo} alt="profile image" />
         <div className="mx-3">
           <div>@{user.username}</div>
           <div>{user.name}</div>
