@@ -12,6 +12,15 @@ class User {
     return users;
   }
 
+  public static async getManyById(id: { id: string }[]) {
+    const users = await prisma.users.findMany({
+      where: {
+        OR: [...id],
+      },
+    });
+    return users;
+  }
+
   public static async get_ById(id: string) {
     if (id.length !== 24) return null;
     let usr = await prisma.users.findFirst({

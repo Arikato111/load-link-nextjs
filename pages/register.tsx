@@ -53,7 +53,7 @@ export default function Register() {
         <Head>
             <title>สร้างบัญชี</title>
         </Head>
-        <main>
+        <main className="p-10">
             {contextHolder}
             <Form
                 name="register"

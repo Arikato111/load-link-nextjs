@@ -2,9 +2,12 @@ import express from "express";
 import UserRouter from "./user";
 import AuthRouter from "./authen";
 import { HttpStatusCode } from "axios";
+import InviteRouter from "./invite";
 
 const router = express.Router();
 
+// invite
+router.use("/invite", InviteRouter);
 // user
 router.use("/user", UserRouter);
 // authen

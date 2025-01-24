@@ -19,6 +19,26 @@ class Invite {
     return 0;
   }
 
+  // find who is inviter
+  public static async getInviter(invitedId: string) {
+    const inviter = await prisma.invite.findFirst({
+      where: {
+        invited: invitedId,
+      },
+    });
+    return inviter;
+  }
+
+  public static async getInvited(inviterId: string) {
+    const invited = await prisma.invite.findMany({
+      where: {
+        inviter: inviterId,
+      },
+      take: 3,
+    });
+    return invited;
+  }
+
   public static async checkValid(code: string) {
     const invited = await prisma.invite.findFirst({
       where: {
