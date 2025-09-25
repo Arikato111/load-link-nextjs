@@ -1,8 +1,23 @@
 import { HttpStatusCode } from "axios";
 import { Request, Response } from "express";
 import Database from "../database/main";
+import TokenManager from "../lib/tokenManage";
 
 class InviteController {
+  public static async getInviteCodes(req: Request, res: Response) {
+    try {
+      let token = req.headers["token"];
+      if (!token) throw new Error("not found token.");
+      const user = TokenManager.verify(token as string);
+      if (!user || typeof user === "string" || !user.id)
+        throw new Error("not found user.");
+      const inviteCodes = await Database.Invite.getInviteCodes(user.id);
+      return res.status(HttpStatusCode.Ok).json(inviteCodes);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(HttpStatusCode.BadRequest);
+    }
+  }
   public static async getInvited(req: Request, res: Response) {
     try {
       const { username } = req.params;

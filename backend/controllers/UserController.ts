@@ -2,9 +2,12 @@ import { Request, Response } from "express";
 import Database from "@/backend/database/main";
 import { HttpStatusCode } from "axios";
 import Hasher from "../lib/hasher";
-import { message } from "antd";
 
 class UserController {
+  /**
+   * ### the function to get all users.
+   * hide sensitive data before return.
+   */
   public static async index(req: Request, res: Response) {
     try {
       // get users from database
@@ -26,6 +29,10 @@ class UserController {
     }
   }
 
+  /**
+   * ### the function to register a new user.
+   * check the invite code and username before register.
+   */
   public static async register(req: Request, res: Response): Promise<void> {
     try {
       const ip = req.ip;
