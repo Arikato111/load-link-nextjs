@@ -5,6 +5,40 @@ import Hasher from "../lib/hasher";
 
 class UserController {
   /**
+   * ### the function to get a user by username.
+   * hide sensitive data before return.
+   *
+   */
+  public static async show(req: Request, res: Response) {
+    try {
+      const { username } = req.params;
+      if (
+        !username ||
+        !new RegExp(/^[A-Za-z0-9_]+$/).test(username) ||
+        username.length > 200
+      ) {
+        res.sendStatus(HttpStatusCode.BadRequest);
+        return;
+      }
+      const user = (await Database.User.getByUsername(username)) as any;
+      await Database.close();
+      if (!user) {
+        res.sendStatus(HttpStatusCode.NotFound);
+        return;
+      }
+      delete user.id;
+      delete user.password;
+      delete user.createdAt;
+      delete user.deletedAt;
+      delete user.userAgent;
+      delete user.ip;
+      res.json(user);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(HttpStatusCode.InternalServerError);
+    }
+  }
+  /**
    * ### the function to get all users.
    * hide sensitive data before return.
    */

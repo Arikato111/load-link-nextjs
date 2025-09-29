@@ -7,5 +7,6 @@ const UserRouter = express.Router();
 // for return users info
 UserRouter.get("/", UserController.index);
 UserRouter.post("/", UserController.register);
+UserRouter.get("/:username", UserController.show);
 
 export default UserRouter;
