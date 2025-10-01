@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Database from "@/backend/database/main";
 import { HttpStatusCode } from "axios";
 import Hasher from "../lib/hasher";
+import Validator from "../lib/validator";
 
 class UserController {
   /**
@@ -12,11 +13,7 @@ class UserController {
   public static async show(req: Request, res: Response) {
     try {
       const { username } = req.params;
-      if (
-        !username ||
-        !new RegExp(/^[A-Za-z0-9_]+$/).test(username) ||
-        username.length > 200
-      ) {
+      if (!username || Validator.username(username)) {
         res.sendStatus(HttpStatusCode.BadRequest);
         return;
       }
