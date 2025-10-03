@@ -73,15 +73,12 @@ class UserController {
       if (
         !ip ||
         !userAgent ||
-        userAgent.length > 500 ||
-        !new RegExp(/^[A-Za-z0-9_]+$/).test(username) ||
-        !username ||
-        username?.length > 200 ||
+        !Validator.userAgent(userAgent) ||
+        !Validator.username(username) ||
         !password ||
-        !name ||
-        name?.length > 200 ||
-        !photo ||
-        photo?.length > 500 ||
+        !Validator.fullName(name) ||
+        !Validator.photoUrl(photo) ||
+        // TODO: create validator for invite code
         !inviteCode
       )
         throw new Error("Bad request");
